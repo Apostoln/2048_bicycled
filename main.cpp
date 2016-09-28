@@ -5,8 +5,16 @@
 #include <ctime>
 using Matrix = std::vector <std::vector<int>>;
 
+enum struct Direction{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
 size_t row = 4;
 size_t column = 4;
+
 
 void print(Matrix field) {
     for(auto i : field) {
@@ -43,6 +51,16 @@ void newTile(Matrix& field) {
         }
     }
 }
+
+void shiftVector(vector <int> v) {
+
+}
+
+void shiftTiles(Matrix& field, Direction dir) {
+
+}
+
+
 
 int main() {
     auto field = Matrix (row, std:: vector <int>(column, 0));
