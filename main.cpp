@@ -84,7 +84,28 @@ void rotateMatrix(Matrix& m) {
 }
 
 void shiftTiles(Matrix& field, Direction dir) {
-
+    size_t rotating; //amount of rotating for this dir
+    switch (dir) {
+        case Direction::LEFT:
+            rotating = 0;
+            break;
+        case Direction::UP:
+            rotating = 1;
+            break;
+        case Direction::RIGHT:
+            rotating = 2;
+            break;
+        case Direction::DOWN:
+            rotating = 3;
+            break;
+    }
+    for(int i = 0; i < rotating; i++) {
+        rotateMatrix(field);
+    }
+    shiftVector(field);
+    for(int i = 0; i < (4-rotating); i++) {
+        rotateMatrix(field);
+    }
 }
 
 
