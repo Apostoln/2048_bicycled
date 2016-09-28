@@ -77,7 +77,7 @@ void rotateMatrix(Matrix& m) {
     auto result = m;
     for(int i = 0; i < m.size(); i++) {
         for(int j = 0; j < m[0].size(); j++) {
-            result[j][i] = m[i][j];
+            result[i][j] = m[m.size()-j-1][i];
         }
     }
     m = result;
