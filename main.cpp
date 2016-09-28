@@ -3,6 +3,7 @@
 #include <random>
 #include <chrono>
 #include <ctime>
+
 using Matrix = std::vector <std::vector<int>>;
 
 enum struct Direction{
@@ -12,9 +13,9 @@ enum struct Direction{
     RIGHT
 };
 
-size_t row = 4;
-size_t column = 4;
-
+size_t size = 4
+size_t row = size;
+size_t column = size;
 
 void print(Matrix field) {
     for(auto i : field) {
@@ -23,6 +24,7 @@ void print(Matrix field) {
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }
 
 void newTile(Matrix& field) {
@@ -84,37 +86,39 @@ void rotateMatrix(Matrix& m) {
 }
 
 void shiftTiles(Matrix& field, Direction dir) {
-    size_t rotating; //amount of rotating for this dir
+    //Rotate matrix, shift tiles for every row and rerotate back
+    size_t rotating; //amount of rotating for this direction
     switch (dir) {
         case Direction::LEFT:
             rotating = 0;
             break;
-        case Direction::UP:
+        case Direction::DOWN:
             rotating = 1;
             break;
         case Direction::RIGHT:
             rotating = 2;
             break;
-        case Direction::DOWN:
+        case Direction::UP:
             rotating = 3;
             break;
     }
     for(int i = 0; i < rotating; i++) {
         rotateMatrix(field);
     }
-    shiftVector(field);
+    for(auto &i : field) {
+        shiftVector(i);
+    }
     for(int i = 0; i < (4-rotating); i++) {
         rotateMatrix(field);
     }
 }
-
-
 
 int main() {
     auto field = Matrix (row, std:: vector <int>(column, 0));
     newTile(field);
     newTile(field);
     print(field);
-    std::cout << "Hello world!" << std::endl;
+    shiftTiles(field, Direction::DOWN);
+    print(field);
     return 0;
 }
