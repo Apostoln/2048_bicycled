@@ -52,8 +52,25 @@ void newTile(Matrix& field) {
     }
 }
 
-void shiftVector(vector <int> v) {
-
+void shiftVector(std::vector <int>& v) {
+    for(int k = 0; k < v.size(); k++) {
+        for (int i = 0; i < v.size(); i++) {
+            if (v[i] != 0) {
+                for (int j = i - 1; j >= 0; j--) {
+                    if (v[j] == 0) {
+                        v[j] = v[i];
+                        v[i] = 0;
+                        break;
+                    }
+                    if (v[j] == v[i]) {
+                        v[j] *= 2;
+                        v[i] = 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void shiftTiles(Matrix& field, Direction dir) {
