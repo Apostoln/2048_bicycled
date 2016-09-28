@@ -73,6 +73,16 @@ void shiftVector(std::vector <int>& v) {
     }
 }
 
+void rotateMatrix(Matrix& m) {
+    auto result = m;
+    for(int i = 0; i < m.size(); i++) {
+        for(int j = 0; j < m[0].size(); j++) {
+            result[j][i] = m[i][j];
+        }
+    }
+    m = result;
+}
+
 void shiftTiles(Matrix& field, Direction dir) {
 
 }
