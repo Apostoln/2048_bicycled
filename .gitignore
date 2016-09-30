@@ -2,3 +2,5 @@
 *.layout
 *.cbp
 *.exe
+/bin
+/obj

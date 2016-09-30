@@ -55,25 +55,35 @@ void newTile(Matrix& field) {
 }
 
 void shiftVector(std::vector <int>& v) {
-    for(int k = 0; k < v.size(); k++) {
-        for (int i = 0; i < v.size(); i++) {
-            if (v[i] != 0) {
-                for (int j = i - 1; j >= 0; j--) {
-                    if (v[j] == 0) {
-                        v[j] = v[i];
-                        v[i] = 0;
-                        break;
-                    }
-                    if (v[j] == v[i]) {
-                        v[j] *= 2;
-                        v[i] = 0;
-                        break;
-                    }
-                }
+    auto mask = std::vector<bool> (false);
+    for(int i = 0; i < v.size(); i++) {
+        print(v);
+        if(v[i] != 0 && i != 0) {
+            int j = i-1;
+            while(j > 0 && v[j-1] == 0) {
+                j--;
+            }
+
+            if(v[j] == 0 && v[j-1] == v[i] && mask[j-1] == false) {
+                v[j-1] *= 2;
+                v[i] = 0;
+                mask[j-1] = true;
+                mask[i] = false;
+            }
+            else if(v[j] == 0) {
+                v[j] = v[i];
+                v[i] = 0;
+                mask[j] = mask[i];
+                mask[i] = false;
+            }
+            else if (v[j] == v[i] && j!= i) {
+                v[j] *= 2;
+                v[i] = 0;
             }
         }
     }
 }
+
 
 void rotateMatrix(Matrix& m) {
     auto result = m;
