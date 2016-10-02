@@ -8,6 +8,7 @@
 using Matrix = std::vector <std::vector<int>>;
 
 enum class Direction{
+    NONE = 0,
     UP,
     DOWN,
     LEFT,
@@ -19,6 +20,7 @@ size_t row = size;
 size_t column = size;
 
 void print(Matrix field) {
+    system("cls");
     for(auto i : field) {
         for(auto j : i) {
             std::cout << j << " ";
@@ -121,33 +123,39 @@ void shiftTiles(Matrix& field, Direction dir) {
     }
 }
 
+Direction control() {
+    Direction direction = Direction::NONE;
+    if(kbhit()) {
+        int key = getch();
+        key = getch();
+        switch(key) {
+            case 72:
+                direction = Direction::UP;
+                break;
+            case 80:
+                direction = Direction::DOWN;
+                break;
+            case 75:
+                direction = Direction::LEFT;
+                break;
+            case 77:
+                direction = Direction::RIGHT;
+                break;
+        }
+    }
+    return direction;
+}
+
 int main() {
     auto field = Matrix (row, std:: vector <int>(column, 0));
     newTile(field);
     newTile(field);
     print(field);
     while(true) {
-        if(kbhit()) {
-            int key = getch();
-            key = getch();
-            Direction direction;
-            switch(key) {
-                case 72:
-                    direction = Direction::UP;
-                    break;
-                case 80:
-                    direction = Direction::DOWN;
-                    break;
-                case 75:
-                    direction = Direction::LEFT;
-                    break;
-                case 77:
-                    direction = Direction::RIGHT;
-                    break;
-            }
+        Direction direction = control();
+        if(direction != Direction::NONE) {
             shiftTiles(field, direction);
             newTile(field);
-            system("cls");
             print(field);
         }
     }
