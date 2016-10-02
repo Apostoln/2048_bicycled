@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <random>
 #include <chrono>
@@ -23,7 +24,7 @@ void print(Matrix field) {
     system("cls");
     for(auto i : field) {
         for(auto j : i) {
-            std::cout << j << " ";
+            std::cout << std::setw(4) << j << " ";
         }
         std::cout << std::endl;
     }
@@ -111,6 +112,8 @@ void shiftTiles(Matrix& field, Direction dir) {
         case Direction::UP:
             rotating = 3;
             break;
+        case Direction::NONE:
+            return;
     }
     for(int i = 0; i < rotating; i++) {
         rotateMatrix(field);
@@ -141,9 +144,45 @@ Direction control() {
             case 77:
                 direction = Direction::RIGHT;
                 break;
+            default:
+                direction = Direction::NONE;
+                break;
         }
     }
     return direction;
+}
+
+bool isWin(Matrix field) {
+    for(auto i: field) {
+        for(auto j: i) {
+            if (2048 == j) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool isLoss(Matrix field) {
+    std::vector <Direction> dirs = {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT};
+    for(auto dir: dirs) {
+        auto temp = field;
+        shiftTiles(temp, dir);
+        if(temp != field) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void printWin() {
+    system("cls");
+    std::cout << "You are won with score " << std::endl;
+}
+
+void printLoss() {
+    system("cls");
+    std::cout << "You are lost with score " << std::endl;
 }
 
 int main() {
@@ -151,13 +190,21 @@ int main() {
     newTile(field);
     newTile(field);
     print(field);
+
     while(true) {
         Direction direction = control();
         if(direction != Direction::NONE) {
             shiftTiles(field, direction);
             newTile(field);
             print(field);
+            if(isWin(field)) {
+                printWin();
+                return 0;
+            }
+            if(isLoss(field)) {
+                printLoss();
+                return 0;
+            }
         }
     }
-    return 0;
 }
