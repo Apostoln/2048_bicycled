@@ -2,25 +2,26 @@
 #include <vector>
 #include <random>
 #include <chrono>
-#include <ctime>
+
+#include "conio.h"
 
 using Matrix = std::vector <std::vector<int>>;
 
-enum struct Direction{
+enum class Direction{
     UP,
     DOWN,
     LEFT,
     RIGHT
 };
 
-size_t size = 4
+size_t size = 4;
 size_t row = size;
 size_t column = size;
 
 void print(Matrix field) {
     for(auto i : field) {
         for(auto j : i) {
-            std::cout << j;
+            std::cout << j << " ";
         }
         std::cout << std::endl;
     }
@@ -57,13 +58,11 @@ void newTile(Matrix& field) {
 void shiftVector(std::vector <int>& v) {
     auto mask = std::vector<bool> (false);
     for(int i = 0; i < v.size(); i++) {
-        print(v);
         if(v[i] != 0 && i != 0) {
             int j = i-1;
             while(j > 0 && v[j-1] == 0) {
                 j--;
             }
-
             if(v[j] == 0 && v[j-1] == v[i] && mask[j-1] == false) {
                 v[j-1] *= 2;
                 v[i] = 0;
@@ -83,7 +82,6 @@ void shiftVector(std::vector <int>& v) {
         }
     }
 }
-
 
 void rotateMatrix(Matrix& m) {
     auto result = m;
@@ -128,7 +126,30 @@ int main() {
     newTile(field);
     newTile(field);
     print(field);
-    shiftTiles(field, Direction::DOWN);
-    print(field);
+    while(true) {
+        if(kbhit()) {
+            int key = getch();
+            key = getch();
+            Direction direction;
+            switch(key) {
+                case 72:
+                    direction = Direction::UP;
+                    break;
+                case 80:
+                    direction = Direction::DOWN;
+                    break;
+                case 75:
+                    direction = Direction::LEFT;
+                    break;
+                case 77:
+                    direction = Direction::RIGHT;
+                    break;
+            }
+            shiftTiles(field, direction);
+            newTile(field);
+            system("cls");
+            print(field);
+        }
+    }
     return 0;
 }
