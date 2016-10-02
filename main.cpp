@@ -41,7 +41,7 @@ void newTile(Matrix& field) {
     int y = rowDis(gen);
     int x = columnDis(gen);
 
-    while(true) {
+    for(int i = 0; i < field.size() * field[0].size(); i++) {
         if (field[y][x] == 0) {
             field[y][x] = value;
             break;
@@ -190,8 +190,8 @@ int main() {
     newTile(field);
     newTile(field);
     print(field);
-
     while(true) {
+
         Direction direction = control();
         if(direction != Direction::NONE) {
             shiftTiles(field, direction);
