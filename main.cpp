@@ -3,6 +3,7 @@
 #include <vector>
 #include <random>
 #include <chrono>
+#include <tuple>
 
 #include "conio.h"
 
@@ -20,6 +21,8 @@ size_t size = 4;
 size_t row = size;
 size_t column = size;
 
+int SCORE = 0;
+
 void print(Matrix field) {
     system("cls");
     for(auto i : field) {
@@ -29,6 +32,7 @@ void print(Matrix field) {
         std::cout << std::endl;
     }
     std::cout << std::endl;
+    std::cout << "Score: " << SCORE << std::endl;
 }
 
 void newTile(Matrix& field) {
@@ -58,7 +62,8 @@ void newTile(Matrix& field) {
     }
 }
 
-void shiftVector(std::vector <int>& v) {
+int shiftVector(std::vector <int>& v) {
+    int score = 0;
     auto mask = std::vector<bool> (false);
     for(int i = 0; i < v.size(); i++) {
         if(v[i] != 0 && i != 0) {
@@ -69,6 +74,7 @@ void shiftVector(std::vector <int>& v) {
             if(v[j] == 0 && v[j-1] == v[i] && mask[j-1] == false) {
                 v[j-1] *= 2;
                 v[i] = 0;
+                score += v[j-1];
                 mask[j-1] = true;
                 mask[i] = false;
             }
@@ -81,9 +87,11 @@ void shiftVector(std::vector <int>& v) {
             else if (v[j] == v[i] && j!= i) {
                 v[j] *= 2;
                 v[i] = 0;
+                score += v[j];
             }
         }
     }
+    return score;
 }
 
 void rotateMatrix(Matrix& m) {
@@ -96,7 +104,7 @@ void rotateMatrix(Matrix& m) {
     m = result;
 }
 
-bool shiftTiles(Matrix& field, Direction dir) {
+std::tuple <bool, int> shiftTiles(Matrix& field, Direction dir) {
     //Rotate matrix, shift tiles for every row and rerotate back
     size_t rotating; //amount of rotating for this direction
     switch (dir) {
@@ -113,15 +121,17 @@ bool shiftTiles(Matrix& field, Direction dir) {
             rotating = 3;
             break;
         case Direction::NONE:
-            return false;
+            return std::make_tuple(false, 0);
     }
+
+    int score = 0;
 
     Matrix temp = field;
     for(int i = 0; i < rotating; i++) {
         rotateMatrix(temp);
     }
     for(auto &i : temp) {
-        shiftVector(i);
+        score += shiftVector(i);
     }
     for(int i = 0; i < (4-rotating); i++) {
         rotateMatrix(temp);
@@ -129,10 +139,10 @@ bool shiftTiles(Matrix& field, Direction dir) {
 
     if(temp != field) {
         field = temp;
-        return true;
+        return std::make_tuple(true, score);
     }
     else {
-        return false;
+        return std::make_tuple(false, score);
     }
 }
 
@@ -177,7 +187,7 @@ bool isLoss(Matrix field) {
     std::vector <Direction> dirs = {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT};
     for(auto dir: dirs) {
         auto temp = field;
-        if (shiftTiles(temp, dir)){
+        if (std::get<0>(shiftTiles(temp, dir))){
             return false;
         }
     }
@@ -186,12 +196,12 @@ bool isLoss(Matrix field) {
 
 void printWin() {
     system("cls");
-    std::cout << "You are won with score " << std::endl;
+    std::cout << "You are won with score " << SCORE << std::endl;
 }
 
 void printLoss() {
     system("cls");
-    std::cout << "You are lost with score " << std::endl;
+    std::cout << "You are lost with score " << SCORE << std::endl;
 }
 
 int main() {
@@ -203,9 +213,11 @@ int main() {
 
         Direction direction = control();
         if(direction != Direction::NONE) {
-            if (!shiftTiles(field, direction)) {
+            auto result = shiftTiles(field, direction);
+            if (!std::get<0>(result)) {
                 continue;
             }
+            SCORE += std::get<1>(result);
             newTile(field);
             print(field);
             if(isWin(field)) {
