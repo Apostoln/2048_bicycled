@@ -96,7 +96,7 @@ void rotateMatrix(Matrix& m) {
     m = result;
 }
 
-void shiftTiles(Matrix& field, Direction dir) {
+bool shiftTiles(Matrix& field, Direction dir) {
     //Rotate matrix, shift tiles for every row and rerotate back
     size_t rotating; //amount of rotating for this direction
     switch (dir) {
@@ -113,16 +113,26 @@ void shiftTiles(Matrix& field, Direction dir) {
             rotating = 3;
             break;
         case Direction::NONE:
-            return;
+            return false;
     }
+
+    Matrix temp = field;
     for(int i = 0; i < rotating; i++) {
-        rotateMatrix(field);
+        rotateMatrix(temp);
     }
-    for(auto &i : field) {
+    for(auto &i : temp) {
         shiftVector(i);
     }
     for(int i = 0; i < (4-rotating); i++) {
-        rotateMatrix(field);
+        rotateMatrix(temp);
+    }
+
+    if(temp != field) {
+        field = temp;
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
@@ -167,8 +177,7 @@ bool isLoss(Matrix field) {
     std::vector <Direction> dirs = {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT};
     for(auto dir: dirs) {
         auto temp = field;
-        shiftTiles(temp, dir);
-        if(temp != field) {
+        if (shiftTiles(temp, dir)){
             return false;
         }
     }
@@ -194,7 +203,9 @@ int main() {
 
         Direction direction = control();
         if(direction != Direction::NONE) {
-            shiftTiles(field, direction);
+            if (!shiftTiles(field, direction)) {
+                continue;
+            }
             newTile(field);
             print(field);
             if(isWin(field)) {
