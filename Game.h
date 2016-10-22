@@ -1,49 +1,29 @@
 #pragma once
 
 #include "Field.h"
+#include "Viewer.h"
+#include "Listener.h"
 #include "Direction.h"
 
 class Game {
     private:
-        Field field;
+        Field* field;
+        Viewer* viewer;
+        Listener* listener;
         int score = 0;
 
     public:
-        Game(size_t size) {
-            field = Field(size);
-        }
+        Game(Viewer* viewer, Listener* listener);
+        Game(Field* field, Viewer* viewer, Listener* listener);
+        Field* getField();
 
-        Field& getField() {
-            return field;
-        }
+        void start();
+        void turn(Direction direction);
 
-        int getScore() {
-            return score;
-        }
+        void update();
+        void win();
+        void loss();
 
-        bool isWin() {
-            for(auto i: field.getBoard()) {
-                for(auto j: i) {
-                    if (2048 == j) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        bool isLoss() {
-            std::vector <Direction> dirs = {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT};
-            for(auto dir: dirs) {
-                auto temp = field;
-                if (std::get<0>(temp.shiftTiles(dir))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        void operator += (int num) {
-            this->score += num;
-        }
+        bool isWin();
+        bool isLoss();
 };

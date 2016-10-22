@@ -1,12 +1,14 @@
 #include "Game.h"
-#include "Controller.h"
-#include "View.h"
-
 #include "Direction.h"
 
+const int FIELD_SIZE = 4;
+
 int main() {
-    Game game(4);
-    View view(&game);
-    Controller controller(&game, &view);
-    controller.run();
+    Listener listener;
+    Field field(FIELD_SIZE);
+    Viewer viewer(&field);
+
+    Game game(&viewer, &listener);
+    game.start();
+
 }
