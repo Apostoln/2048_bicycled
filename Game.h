@@ -17,6 +17,7 @@ class Game {
         Game(Field* field, Viewer* viewer, Listener* listener);
         Field* getField();
 
+        void run();
         void start();
         void turn(Direction direction);
 

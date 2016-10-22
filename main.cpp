@@ -9,6 +9,6 @@ int main() {
     Viewer viewer(&field);
 
     Game game(&viewer, &listener);
-    game.start();
+    game.run();
 
 }

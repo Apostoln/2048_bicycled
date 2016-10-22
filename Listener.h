@@ -19,6 +19,5 @@ class Listener {
         void setTarget(Game* game);
         void listen();
 
-        void onStarted();
         void onPressed(Direction direction);
 };

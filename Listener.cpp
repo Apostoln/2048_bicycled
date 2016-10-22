@@ -45,11 +45,6 @@ Direction Listener::getDirection() {
     return direction;
 }
 
-
-void Listener::onStarted() {
-    game->start();
-}
-
 void Listener::onPressed(Direction direction) {
     game->turn(direction);
 }

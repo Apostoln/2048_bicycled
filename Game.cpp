@@ -18,14 +18,17 @@ Field* Game::getField() {
 }
 
 
+void Game::run() {
+    listener->setTarget(this);
+    start();
+    listener->listen();
+}
+
 void Game::start() {
     for(int i = 0; i < 2; i++) {
         field->newTile();
     }
     update();
-
-    listener->setTarget(this);
-    listener->listen();
 }
 
 void Game::turn(Direction direction) {
