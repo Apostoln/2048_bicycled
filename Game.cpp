@@ -25,7 +25,8 @@ void Game::run() {
 }
 
 void Game::start() {
-    for(int i = 0; i < 2; i++) {
+    int AMOUNT_OF_START_TILES = 2;
+    for(int i = 0; i < AMOUNT_OF_START_TILES; i++) {
         field->newTile();
     }
     update();
