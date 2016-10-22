@@ -3,13 +3,13 @@
 #include "Game.h"
 #include "Field.h"
 #include "Viewer.h"
-#include "Listener.h"
+#include "IListener.h"
 #include "Direction.h"
 
-Game::Game(Field* field, Viewer* viewer, Listener* listener):
+Game::Game(Field* field, Viewer* viewer, IListener* listener):
     field(field), viewer(viewer), listener(listener) {}
 
-Game::Game(Viewer* viewer, Listener* listener):
+Game::Game(Viewer* viewer, IListener* listener):
     viewer(viewer), listener(listener), field(viewer->getField()) {}
 
 

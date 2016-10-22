@@ -2,11 +2,10 @@
 
 #include "conio.h"
 
+#include "IListener.h"
 #include "Direction.h"
 
-class Game;
-
-class Listener {
+class Listener: public IListener {
     private:
         Game* game;
 

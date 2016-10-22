@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Field.h"
+#include "IViewer.h"
 
-class Viewer {
+class Viewer: public IViewer {
     private:
         Field* field;
 

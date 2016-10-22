@@ -2,19 +2,19 @@
 
 #include "Field.h"
 #include "Viewer.h"
-#include "Listener.h"
+#include "IListener.h"
 #include "Direction.h"
 
 class Game {
     private:
         Field* field;
         Viewer* viewer;
-        Listener* listener;
+        IListener* listener;
         int score = 0;
 
     public:
-        Game(Viewer* viewer, Listener* listener);
-        Game(Field* field, Viewer* viewer, Listener* listener);
+        Game(Viewer* viewer, IListener* listener);
+        Game(Field* field, Viewer* viewer, IListener* listener);
         Field* getField();
 
         void run();
