@@ -4,7 +4,7 @@
 #include "IViewer.h"
 
 class Viewer: public IViewer {
-    private:
+    protected:
         Field* field;
 
     public:
@@ -12,7 +12,7 @@ class Viewer: public IViewer {
 
         Field* getField();
 
-        void printWin();
-        void printLoss();
-        void show();
+        void printWin() = 0;
+        void printLoss() = 0;
+        void show() = 0;
 };
