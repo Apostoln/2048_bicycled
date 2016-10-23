@@ -10,9 +10,9 @@ class Viewer: public IViewer {
     public:
         Viewer(Field* field);
 
-        Field* getField();
+        virtual Field* getField();
 
-        void printWin() = 0;
-        void printLoss() = 0;
-        void show() = 0;
+        virtual void printWin() = 0;
+        virtual void printLoss() = 0;
+        virtual void show() = 0;
 };

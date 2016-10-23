@@ -1,12 +1,12 @@
 #include "Game.h"
 #include "Direction.h"
-#include "Listener.h"
+#include "ConsoleListener.h"
 #include "ConsoleViewer.h"
 
 const int FIELD_SIZE = 4;
 
 int main() {
-    Listener listener;
+    ConsoleListener listener;
     Field field(FIELD_SIZE);
     ConsoleViewer viewer(&field);
 

@@ -4,19 +4,18 @@
 
 #include "IListener.h"
 #include "Direction.h"
+#include "Game.h"
 
 class Listener: public IListener {
-    private:
+    protected:
         Game* game;
-
-        Direction getDirection();
 
     public:
         Listener() = default;
         Listener(Game* game);
 
-        void setTarget(Game* game);
-        void listen();
+        virtual void setTarget(Game* game);
+        virtual void listen() = 0;
 
-        void onPressed(Direction direction);
+        virtual void onPressed(Direction direction) = 0;
 };
