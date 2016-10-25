@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Field.h"
-#include "IViewer.h"
+#include "Viewable.h"
 
-class Viewer: public IViewer {
+class Viewer: public Viewable {
     protected:
         Field* field;
 

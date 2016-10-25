@@ -2,7 +2,7 @@
 
 class Field;
 
-class IViewer {
+class Viewable {
     public:
         virtual void printWin() = 0;
         virtual void printLoss() = 0;

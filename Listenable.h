@@ -4,7 +4,7 @@
 
 class Game;
 
-class IListener {
+class Listenable {
     public:
         virtual void setTarget(Game* game) = 0;
         virtual void listen() = 0;

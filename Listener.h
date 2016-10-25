@@ -2,11 +2,11 @@
 
 #include "conio.h"
 
-#include "IListener.h"
+#include "Listenable.h"
 #include "Direction.h"
 #include "Game.h"
 
-class Listener: public IListener {
+class Listener: public Listenable {
     protected:
         Game* game;
 
