@@ -13,6 +13,7 @@ class Listener: public Listenable {
     public:
         Listener() = default;
         Listener(Game* game);
+        virtual ~Listener() = default;
 
         virtual void setTarget(Game* game);
         virtual void listen() = 0;

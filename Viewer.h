@@ -9,6 +9,7 @@ class Viewer: public Viewable {
 
     public:
         Viewer(Field* field);
+        virtual ~Viewer() = default;
 
         virtual Field* getField();
 
